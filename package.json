@@ -1,0 +1,23 @@
+{
+  "name": "cordwood",
+  "version": "1.0.0",
+  "description": "A Discord client mod focused on modularity.",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cordwood/Cordwood.git"
+  },
+  "author": "Cordwood",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/Cordwood/Cordwood/issues"
+  },
+  "homepage": "https://github.com/Cordwood/Cordwood#readme",
+  "devDependencies": {
+    "esbuild": "^0.14.8",
+    "esbuild-plugin-alias": "^0.2.1"
+  }
+}

@@ -1,0 +1,51 @@
+name: Release
+on:
+  push:
+    tags:
+      - v*
+
+env:
+  FORCE_COLOR: true
+
+jobs:
+  release:
+    name: Build and release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Clone Flicker
+        uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.0.1   
+        with:  
+          version: 6.20.1
+      
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Get some values needed for the release
+        id: release_values
+        run: |
+            echo "::set-output name=date::$(date '+%Y-%m-%d')"
+            echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.BEEF_TOKEN }}
+        with:
+          name: ${{ steps.release_values.outputs.tag }}, ${{ steps.release_values.outputs.date }}
+          draft: true
+          prerelease: false
+          body_path: .github/release_body_template.md
+          files: dist/build.js
