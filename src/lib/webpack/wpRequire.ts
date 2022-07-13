@@ -1,2 +1,2 @@
-export default webpackChunkdiscord_app.push([[Symbol()], {}, (e) => e]);
-webpackChunkdiscord_app.pop();
+// TODO: how the fuck do i type this?
+export default window.webpackJsonp([], [(module: any, exports: any, require: any) => { module.exports = require }]);

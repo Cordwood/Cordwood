@@ -3,7 +3,6 @@ import { build } from "esbuild";
 import fs from "fs";
 import path from "path";
 
-// import tsconfig from "./tsconfig.json" assert {type: "json"};
 const tsconfig = JSON.parse(fs.readFileSync("./tsconfig.json"));
 const aliases = Object.fromEntries(
     Object.entries(tsconfig.compilerOptions.paths).map(([alias, [target]]) => [

@@ -17,6 +17,12 @@
             ],
             "@lib/*": [
                 "./src/lib/*"
+            ],
+            "@webpack": [
+                "./src/lib/webpack"
+            ],
+            "@webpack/*": [
+                "./src/lib/webpack/*"
             ]
         }
     }
