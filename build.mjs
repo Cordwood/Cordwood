@@ -1,6 +1,17 @@
-import { buildSync } from "esbuild";
+import alias from "esbuild-plugin-alias";
+import { build } from "esbuild";
+import fs from "fs";
+import path from "path";
 
-buildSync({
+import tsconfig from "./tsconfig.json" assert {type: "json"};
+const aliases = Object.fromEntries(
+    Object.entries(tsconfig.compilerOptions.paths).map(([alias, [target]]) => [
+        alias,
+        path.resolve(target)
+    ])
+);
+
+build({
     entryPoints: ["./src/index.ts"],
     outfile: "./dist/index.js",
     minify: true,
@@ -8,4 +19,7 @@ buildSync({
     format: "iife",
     external: ["react"],
     target: "esnext",
+    plugins: [
+        alias(aliases)
+    ]
 })
