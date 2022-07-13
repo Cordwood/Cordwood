@@ -12,6 +12,7 @@ jobs:
         with:
           repository: 'Cordwood/builds'
           path: 'builds'
+          token: ${{ secrets.ALY_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           node-version: 16
