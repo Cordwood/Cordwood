@@ -8,10 +8,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: 'Cordwood/builds'
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+
       - name: Install dependencies
         run: |
           npm i -g pnpm
           pnpm i
+
+      - name: Build
+        run: node build.mjs
+
+      - name: Push builds
+        run: |
+          rm $GITHUB_WORKSPACE/builds/* || true
+          cp -r dist/* $GITHUB_WORKSPACE/builds || true
+          cd $GITHUB_WORKSPACE/builds
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "Build $GITHUB_SHA" || exit 0
+          git push
