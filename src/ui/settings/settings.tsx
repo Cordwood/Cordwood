@@ -3,6 +3,7 @@ import { findByProps } from "@webpack/filters";
 import { after } from "@lib/patcher";
 import initChangelog from "./changelog";
 import SettingsView from "./components/SettingsView";
+import SettingsItem from "./components/SettingsItem";
 
 export default function initialize() {
     initChangelog();
@@ -11,9 +12,8 @@ export default function initialize() {
     const TabBar = findByProps("TabBarItem", "TabBarHeader", "TabBarSeparator");
     after("render", UserSettingsModal.default.prototype, (args, ret) => {
         ret.props.children[0].props.children.props.children[1].push(
-            <TabBar.TabBarSeparator />,
-            <TabBar.TabBarHeader>Test</TabBar.TabBarHeader>,
-            <TabBar.TabBarItem key="cordwood">Plugins</TabBar.TabBarItem>
+            <TabBar.TabBarHeader>Cordwood</TabBar.TabBarHeader>,
+            <SettingsItem key="cordwood">Plugins</SettingsItem>,
         );
         if (ret.props.children[0].props.children.props.selectedItem === "cordwood") {
             ret.props.children[1].props.children[0].props.children = <SettingsView />;
