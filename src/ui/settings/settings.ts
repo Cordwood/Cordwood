@@ -1,10 +1,13 @@
 import { React } from "@webpack/common";
 import { findByProps } from "@webpack/filters";
 import { after } from "@lib/patcher";
+import initChangelog from "./changelog";
 
-// TODO: This needs to use findInReactTree, and for that we need findInTree
+// TODO: This needs to use findInReactTree
 
 export default function initialize() {
+    initChangelog();
+
     const UserSettingsModal = findByProps("getUserSettingsModalSections");
     const TabBar = findByProps("TabBarItem");
     after("render", UserSettingsModal.default.prototype, (args, ret) => {
