@@ -13,7 +13,7 @@ export default function initialize() {
     after("render", UserSettingsModal.default.prototype, (args, ret) => {
         ret.props.children[0].props.children.props.children[1].push(
             <TabBar.TabBarHeader>Cordwood</TabBar.TabBarHeader>,
-            <SettingsItem key="cordwood">Plugins</SettingsItem>,
+            <TabBar.TabBarItem key="cordwood">Plugins</TabBar.TabBarItem>
         );
         if (ret.props.children[0].props.children.props.selectedItem === "cordwood") {
             ret.props.children[1].props.children[0].props.children = <SettingsView />;
