@@ -16,6 +16,8 @@
   },
   "homepage": "https://github.com/Cordwood/Cordwood#readme",
   "devDependencies": {
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
     "esbuild": "^0.14.49",
     "esbuild-plugin-alias": "^0.2.1",
     "typescript": "^4.7.4"

@@ -19,7 +19,7 @@ type Widen<T> = [T] extends [object]
       {[K in AllKeys<T>]: Widen<Idx<T, K>>},
       Exclude<AllKeys<T>, keyof T> | OptionalKeys<T>
     >
-  : T;  
+  : T;
 type ModifyDeep<A extends AnyObject, B extends DeepPartialAny<A>> = {
   [K in keyof A]: B[K] extends never
     ? A[K]
