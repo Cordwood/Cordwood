@@ -1,58 +1,45 @@
+/*
+  Disclaimer: https://github.com/Cumcord/Cumcord/blob/1f88853091087e39c64d9f769ea4895763412a6a/src/api/utils/findInTree.js
+ */
 export interface FindInTreeOptions {
   walkable?: string[];
   ignore?: string[];
   maxDepth?: number;
-  silentFailDepth?: number;
 }
 
 export type SearchFilter = (tree: any) => boolean;
 
-const { hasOwnProperty } = Object.prototype;
+export function findInTree(tree: {[key: string]: any}, filter: SearchFilter, {walkable = [], ignore = [], maxDepth = 100}: FindInTreeOptions = {}): any {
+  let iteration = 0;
 
-function findInTreeInner(tree: {[key: string]: any}, filter: SearchFilter | string, options: FindInTreeOptions = {}, cache: object[] = [], depth = 0): any {
-  if (typeof tree !== 'object' || !tree) return null;
-  const { walkable, ignore = [], maxDepth = 150, silentFailDepth = false } = options;
+  function doSearch(tree: {[key: string]: any}, filter: SearchFilter, { walkable = [], ignore = [] }: FindInTreeOptions = {}): any {
+    iteration += 1;
+    if (iteration > maxDepth) return;
 
-  if (depth >= maxDepth) {
-    if (silentFailDepth) return null;
-    throw new Error(`Max depth of ${maxDepth} exceeded!`);
-  }
+    if (typeof filter === "string") {
+      if (tree.hasOwnProperty(filter)) return tree[filter];
+    } else if (filter(tree)) return tree;
 
-  if (typeof filter === 'string') {
-    if (hasOwnProperty.call(tree, filter)) return tree[filter];
-  } else if (filter(tree)) return tree;
+    if (!tree) return;
 
-  if (Array.isArray(tree)) {
-    for (let i = 0, len = tree.length; i < len; i++) {
-      const value = tree[i];
-      if (typeof value === 'object') {
-        if (cache.findIndex(e => e === value) !== -1) continue;
-        cache.push(value);
+    if (Array.isArray(tree)) {
+      for (const item of tree) {
+        const found = doSearch(item, filter, { walkable, ignore });
+        if (found) return found;
       }
-      const ret = findInTreeInner(value, filter, options, cache, depth + 1);
-      if (ret !== null) return ret;
-    }
-  } else {
-    const keys = walkable || Object.keys(tree);
-    for (let i = 0, len = keys.length; i < len; i++) {
-      const key = keys[i];
-      if (!hasOwnProperty.call(tree, key) || ignore.indexOf(key) !== -1) continue;
-      const value = tree[key];
-      if (typeof value === 'object') {
-        if (cache.findIndex(e => e === value) !== -1) continue;
-        cache.push(value);
+    } else if (typeof tree === "object") {
+      for (const key of Object.keys(tree)) {
+        if (walkable != null && walkable.includes(key)) continue;
+
+        if (ignore.includes(key)) continue;
+
+        try {
+          const found = doSearch(tree[key], filter, { walkable, ignore });
+          if (found) return found;
+        } catch {}
       }
-      const ret = findInTreeInner(value, filter, options, cache, depth + 1);
-      if (ret !== null) return ret;
     }
   }
-  return null;
-}
 
-export function findInTree(tree: {[key: string]: any}, filter: SearchFilter | string, options: FindInTreeOptions = {}): any {
-  try {
-    return findInTreeInner(tree, filter, options);
-  } catch (err: any) {
-    throw new Error(err.message);
-  }
+  return doSearch(tree, filter, { walkable, ignore });
 }
