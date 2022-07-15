@@ -12,7 +12,7 @@ let erroredOnLoad = false;
 
 try {
     settingsInit();
-    const uninjectStyles = injectCSS(".cordwood-settings-header{padding-bottom:1rem}.cordwood-changelog-button{display:block!important;color:#faa61a!important;font-size:12px!important;padding:8px 6px 10px 20px!important;opacity:.7;-webkit-transition:opacity .2s!important;transition:opacity .2s}.cordwood-changelog-button:hover{opacity:1;color:#faa61a}");
+    const uninjectStyles = injectCSS(".cordwood-settings-header{padding-bottom:1rem}.cordwood-changelog-button{cursor:pointer;display:block!important;color:#faa61a!important;font-size:12px!important;padding:8px 6px 10px 20px!important;opacity:.7;-webkit-transition:opacity .2s!important;transition:opacity .2s}.cordwood-changelog-button:hover{opacity:1;color:#faa61a}");
 
     window.cordwood = {
         util: {

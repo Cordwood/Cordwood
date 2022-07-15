@@ -1,8 +1,9 @@
-import { React } from "@webpack/common";
-import { findByProps } from "@webpack/filters";
+import { FluxDispatcher, React } from "@webpack/common";
+import { findByDisplayName, findByProps } from "@webpack/filters";
 import { after } from "@lib/patcher";
 import initChangelog from "./changelog";
 import SettingsView from "./components/SettingsView";
+import Changelog from "./components/Changelog";
 
 export default function initialize() {
     initChangelog();
@@ -23,20 +24,45 @@ export default function initialize() {
     });
 
     const TabBar = findByProps("TabBarItem", "TabBarHeader", "TabBarSeparator");
+    const MarkdownModal = findByDisplayName("MarkdownModal");
     after("render", UserSettingsModal.default.prototype, (_, ret) => {
         ret.props.children[0].props.children.props.children[1].push(
             <TabBar.TabBarHeader className="cordwood-settings-header">Cordwood</TabBar.TabBarHeader>,
             <TabBar.TabBarItem key="CORDWOOD">Plugins</TabBar.TabBarItem>,
 
-            <TabBar.TabBarItem key="CORDWOOD_CHANGELOG" className="cordwood-changelog-button">
+            <div
+                className="cordwood-changelog-button"
+                onClick={() => {
+                    // lexisother: I fucking love this patch. Thanks Ducko.
+                    after(
+                        "render",
+                        MarkdownModal.prototype,
+                        (_, ret) => {
+                            if (!ret.props.className.includes("change-log")) return ret;
+
+                            // TODO(lexisother): Add a proper changelog system!
+                            // Hash checking and the likes. See the sourcemaps
+                            // for that.
+                            const header = ret.props.children[0].props.children[0];
+                            header[0].props.children = "Cordwood Changelog";
+                            header[1] = " (Jul 13, 2022)";
+
+                            const content = ret.props.children[1];
+                            content.props.children[0] = null; // remove video
+                            content.props.children[1] = [<Changelog />];
+
+                            return ret;
+                        },
+                        true
+                    );
+                    FluxDispatcher.dispatch({ type: "CHANGE_LOG_OPEN" });
+                }}
+            >
                 Cordwood Change Log
-            </TabBar.TabBarItem>
+            </div>
         );
         if (ret.props.children[0].props.children.props.selectedItem === "CORDWOOD") {
             ret.props.children[1].props.children[0].props.children = <SettingsView />;
-        }
-        if (ret.props.children[0].props.children.props.selectedItem === "CORDWOOD_CHANGELOG") {
-            // TODO: Modal popup
         }
     });
 }
