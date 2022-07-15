@@ -23,6 +23,12 @@
             ],
             "@webpack/*": [
                 "./src/lib/webpack/*"
+            ],
+            "@utils": [
+                "./src/lib/utils"
+            ],
+            "@utils/*": [
+                "./src/lib/utils/*"
             ]
         }
     }

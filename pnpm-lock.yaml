@@ -1,6 +1,7 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
+  '@types/lodash': ^4.14.182
   '@types/react': ^18.0.15
   '@types/react-dom': ^18.0.6
   esbuild: ^0.14.49
@@ -12,6 +13,7 @@ dependencies:
   spitroast: 1.4.2
 
 devDependencies:
+  '@types/lodash': 4.14.182
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
   esbuild: 0.14.49
@@ -19,6 +21,10 @@ devDependencies:
   typescript: 4.7.4
 
 packages:
+
+  /@types/lodash/4.14.182:
+    resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
+    dev: true
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}

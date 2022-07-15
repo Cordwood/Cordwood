@@ -6,16 +6,13 @@ const ChangeLogShower = findByProps("showChangeLog");
 const ChangeLog = findByDisplayName("ChangeLog");
 
 export default function init() {
-  after("showChangeLog", ChangeLogShower, () => {
-    FluxDispatcher.dispatch({
-      type: "CHANGE_LOG_OPEN"
+    after("showChangeLog", ChangeLogShower, () => {
+        FluxDispatcher.dispatch({
+            type: "CHANGE_LOG_OPEN",
+        });
     });
-  });
 
-  after("renderHeader", ChangeLog.prototype, (args, ret) => {
-    return "hi"
-    // console.log(args);
-    // console.log(ret);
-  });
+    after("renderHeader", ChangeLog.prototype, (args, ret) => {
+        return "hi";
+    });
 }
-

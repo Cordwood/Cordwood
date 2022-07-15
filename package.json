@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/Cordwood/Cordwood#readme",
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "esbuild": "^0.14.49",

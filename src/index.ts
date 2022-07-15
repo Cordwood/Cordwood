@@ -1,12 +1,15 @@
 import logger from "@lib/logger";
 import settingsInit from "./ui/settings/settings";
-import spitroast from "@lib/patcher";
-import {findInTree} from "@lib/utils/findInTree";
-import {findInReactTree} from "@lib/utils/findInReactTree";
+import patcher, { injectCSS, unpatchAll } from "@lib/patcher";
+import { findInTree } from "@utils/findInTree";
+import { findInReactTree } from "@utils/findInReactTree";
 import * as webpack from "@webpack/filters";
 import * as common from "@webpack/common";
 
 if (window.cordwood) throw new Error("Cordwood is already injected...");
+
+settingsInit();
+const uninjectStyles = injectCSS(".cordwood-settings-header{padding-bottom:1rem}.cordwood-changelog-button{display:block!important;color:#faa61a!important;font-size:12px!important;padding:8px 6px 10px 20px!important;opacity:.7;-webkit-transition:opacity .2s!important;transition:opacity .2s}.cordwood-changelog-button:hover{opacity:1;color:#faa61a}");
 
 window.cordwood = {
     util: {
@@ -14,11 +17,10 @@ window.cordwood = {
         findInTree,
         findInReactTree,
     },
-    patcher: { ...spitroast },
+    patcher: { ...patcher },
     webpack: {
         ...webpack,
         common: { ...common },
-    }
+    },
+    uninject: () => { unpatchAll(); uninjectStyles(); delete window.cordwood; },
 } as CordwoodObject;
-
-settingsInit();
