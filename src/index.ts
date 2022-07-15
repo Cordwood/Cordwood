@@ -8,19 +8,30 @@ import * as common from "@webpack/common";
 
 if (window.cordwood) throw new Error("Cordwood is already injected...");
 
-settingsInit();
-const uninjectStyles = injectCSS(".cordwood-settings-header{padding-bottom:1rem}.cordwood-changelog-button{display:block!important;color:#faa61a!important;font-size:12px!important;padding:8px 6px 10px 20px!important;opacity:.7;-webkit-transition:opacity .2s!important;transition:opacity .2s}.cordwood-changelog-button:hover{opacity:1;color:#faa61a}");
+let erroredOnLoad = false;
 
-window.cordwood = {
-    util: {
-        logger: logger,
-        findInTree,
-        findInReactTree,
-    },
-    patcher: { ...patcher },
-    webpack: {
-        ...webpack,
-        common: { ...common },
-    },
-    uninject: () => { unpatchAll(); uninjectStyles(); delete window.cordwood; },
-} as CordwoodObject;
+try {
+    settingsInit();
+    const uninjectStyles = injectCSS(".cordwood-settings-header{padding-bottom:1rem}.cordwood-changelog-button{display:block!important;color:#faa61a!important;font-size:12px!important;padding:8px 6px 10px 20px!important;opacity:.7;-webkit-transition:opacity .2s!important;transition:opacity .2s}.cordwood-changelog-button:hover{opacity:1;color:#faa61a}");
+
+    window.cordwood = {
+        util: {
+            logger: logger,
+            findInTree,
+            findInReactTree,
+        },
+        patcher: { ...patcher },
+        webpack: {
+            ...webpack,
+            common: { ...common },
+        },
+        uninject: () => { unpatchAll(); uninjectStyles(); delete window.cordwood; },
+    } as CordwoodObject;
+} catch (e: Error | any) {
+    erroredOnLoad = true;
+    logger.error(`Cordwood failed to initialize... ${e.stack ? e.stack : e.toString()}`);
+}
+
+if (!erroredOnLoad) {
+    logger.log("Loaded successfully!");
+}
