@@ -1,14 +1,13 @@
 import { React } from "@webpack/common";
 import { findByProps } from "@webpack/filters";
-import { after } from "@lib/patcher";
+import { after, injectCSS } from "@lib/patcher";
 import initChangelog from "./changelog";
 import SettingsView from "./components/SettingsView";
 
 export default function initialize() {
     initChangelog();
 
-    let style = document.createElement('style');
-    style.innerHTML = `
+    injectCSS(`
         .cordwood-settings-header {
             padding-bottom: 1rem;
         }
@@ -25,8 +24,7 @@ export default function initialize() {
             opacity: 1;
             color: #faa61a
         }
-    `
-    document.head.appendChild(style);
+    `)
 
     const Constants = findByProps("UserSettingsModalSections");
     Object.assign(Constants.UserSettingsModalSections, {
