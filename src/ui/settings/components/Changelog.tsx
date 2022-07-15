@@ -1,5 +1,34 @@
 import { React } from "@webpack/common";
 
-// TODO(lexisother): Look into changelog parsing code in sourcemaps and see if
-// we can implement that ourselves.
-export default () => <h1>test</h1>;
+export default ({ changelog }: { changelog: string }) => {
+    const CHANGELOGS = changelog
+        .split("---changelog---\n")
+        .slice(1)
+        .map((changelog) => parseChangeLog(changelog));
+    console.log(CHANGELOGS);
+    return <p>{changelog}</p>;
+};
+
+function parseChangeLog(changelog: string) {
+    let reachedConfigEnd = false;
+    const config: { [key: string]: any } = {};
+    const body = changelog
+        .split("\n")
+        .filter((line) => {
+            if (line === "---") {
+                reachedConfigEnd = true;
+                return false;
+            }
+
+            if (!reachedConfigEnd) {
+                const params = line.split(": ");
+                const key = params.shift()!;
+                const value = params.join(": ");
+                config[key] = JSON.parse(value);
+            }
+
+            return reachedConfigEnd;
+        })
+        .join("\n");
+    return { ...config, body };
+}

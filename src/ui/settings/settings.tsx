@@ -4,6 +4,7 @@ import { after } from "@lib/patcher";
 import initChangelog from "./changelog";
 import SettingsView from "./components/SettingsView";
 import Changelog from "./components/Changelog";
+import cl from "../../../CHANGELOG.md";
 
 export default function initialize() {
     initChangelog();
@@ -15,7 +16,7 @@ export default function initialize() {
     });
 
     const UserSettingsModal = findByProps("getUserSettingsModalSections");
-    after("getUserSettingsModalSections", UserSettingsModal, (args, ret) => {
+    after("getUserSettingsModalSections", UserSettingsModal, (_, ret) => {
         ret.push({
             section: Constants.UserSettingsModalSections.CORDWOOD,
             label: "Cordwood",
@@ -49,7 +50,7 @@ export default function initialize() {
 
                             const content = ret.props.children[1];
                             content.props.children[0] = null; // remove video
-                            content.props.children[1] = [<Changelog />];
+                            content.props.children[1] = [<Changelog changelog={cl} />];
 
                             return ret;
                         },

@@ -22,7 +22,10 @@ try {
         target: "esnext",
         plugins: [
             alias(aliases)
-        ]
+        ],
+        loader: {
+            '.md': 'text'
+        }
     });
 
     await fs.appendFile("./dist/index.js", "//# sourceURL=Cordwood");
