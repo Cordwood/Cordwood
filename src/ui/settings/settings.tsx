@@ -4,7 +4,6 @@ import { after } from "@lib/patcher";
 import initChangelog from "./changelog";
 import SettingsView from "./components/SettingsView";
 import Changelog from "./components/Changelog";
-import cl from "../../../CHANGELOG.md";
 
 export default function initialize() {
     initChangelog();
@@ -42,15 +41,16 @@ export default function initialize() {
                             if (!ret.props.className.includes("change-log")) return ret;
 
                             // TODO(lexisother): Add a proper changelog system!
-                            // Hash checking and the likes. See the sourcemaps
-                            // for that.
+                            // Hash checking and the likes. As well as actually
+                            // rendering using Discord's fancy Markdown
+                            // rendering system. See the sourcemaps for that.
                             const header = ret.props.children[0].props.children[0];
                             header[0].props.children = "Cordwood Changelog";
                             header[1] = " (Jul 13, 2022)";
 
                             const content = ret.props.children[1];
                             content.props.children[0] = null; // remove video
-                            content.props.children[1] = [<Changelog changelog={cl} />];
+                            content.props.children[1] = [<Changelog changelog={window.cordwood!.changelog} />];
 
                             return ret;
                         },

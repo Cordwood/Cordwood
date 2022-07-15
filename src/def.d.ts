@@ -24,6 +24,7 @@ declare global {
     }
 
     interface CordwoodObject {
+        changelog: string;
         util: {
             logger: typeof logger;
         };

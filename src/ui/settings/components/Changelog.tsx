@@ -1,11 +1,11 @@
 import { React } from "@webpack/common";
 
 export default ({ changelog }: { changelog: string }) => {
-    const CHANGELOGS = changelog
-        .split("---changelog---\n")
-        .slice(1)
-        .map((changelog) => parseChangeLog(changelog));
-    console.log(CHANGELOGS);
+    // NOTE(lexisother): Future proofing, for showing all the changelogs.
+    // const CHANGELOGS = changelog
+    //     .split("---changelog---\n")
+    //     .slice(1)
+    //     .map((changelog) => parseChangeLog(changelog));
     return <p>{changelog}</p>;
 };
 
