@@ -2,7 +2,7 @@
 date: "Jul 16, 2022"
 revision: 1
 ---
-Cordwood is born! {changelog-added-secondary}
+Cordwood is born! {changelog-added-secondary changelog-margin-top}
 ==========================================
 
 After about two days of work, Cordwood has been brought into life!

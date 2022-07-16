@@ -42,5 +42,5 @@ const render = MarkupUtils.parserFor({
 
 export default ({ changelog }: { changelog: { body: string; [key: string]: any } }) => {
     // TODO(lexisother): Select a changelog based on commit hash etc etc
-    return <p>{render(changelog.body, false)}</p>;
+    return <div>{render(changelog.body, false)}</div>;
 };
