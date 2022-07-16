@@ -34,7 +34,9 @@ try {
         },
     } as CordwoodObject;
 
-    fetch("https://raw.githubusercontent.com/Cordwood/Cordwood/master/CHANGELOG.md", { cache: "no-store" }).then((data) => data.text().then((text) => Object.assign(window.cordwood!, { changelog: text })));
+    process.env.DEV
+        ? (window.cordwood!.changelog = process.env.__CHANGELOG__)
+        : fetch("https://raw.githubusercontent.com/Cordwood/Cordwood/master/CHANGELOG.md", { cache: "no-store" }).then((data) => data.text().then((text) => Object.assign(window.cordwood!, { changelog: text })));
 } catch (e: Error | any) {
     erroredOnLoad = true;
     logger.error(`Cordwood failed to initialize... ${e.stack ? e.stack : e.toString()}`);

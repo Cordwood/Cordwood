@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "A Discord client mod focused on modularity.",
   "scripts": {
-    "build": "node build.mjs"
+    "build": "cross-env DEV=true node build.mjs && copyfiles CHANGELOG.md dist",
+    "build:prod": "node build.mjs"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,11 @@
   "homepage": "https://github.com/Cordwood/Cordwood#readme",
   "devDependencies": {
     "@types/lodash": "^4.14.182",
+    "@types/node": "^18.0.5",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
     "esbuild": "^0.14.49",
     "esbuild-plugin-alias": "^0.2.1",
     "simple-markdown": "^0.7.3",
