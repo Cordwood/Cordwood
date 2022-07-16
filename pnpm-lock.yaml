@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 specifiers:
   '@types/lodash': ^4.14.182
@@ -6,6 +6,7 @@ specifiers:
   '@types/react-dom': ^18.0.6
   esbuild: ^0.14.49
   esbuild-plugin-alias: ^0.2.1
+  simple-markdown: ^0.7.3
   spitroast: ^1.4.2
   typescript: ^4.7.4
 
@@ -18,6 +19,7 @@ devDependencies:
   '@types/react-dom': 18.0.6
   esbuild: 0.14.49
   esbuild-plugin-alias: 0.2.1
+  simple-markdown: 0.7.3
   typescript: 4.7.4
 
 packages:
@@ -262,6 +264,12 @@ packages:
       esbuild-windows-32: 0.14.49
       esbuild-windows-64: 0.14.49
       esbuild-windows-arm64: 0.14.49
+    dev: true
+
+  /simple-markdown/0.7.3:
+    resolution: {integrity: sha512-uGXIc13NGpqfPeFJIt/7SHHxd6HekEJYtsdoCM06mEBPL9fQH/pSD7LRM6PZ7CKchpSvxKL4tvwMamqAaNDAyg==}
+    dependencies:
+      '@types/react': 18.0.15
     dev: true
 
   /spitroast/1.4.2:

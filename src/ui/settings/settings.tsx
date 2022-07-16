@@ -40,17 +40,49 @@ export default function initialize() {
                         (_, ret) => {
                             if (!ret.props.className.includes("change-log")) return ret;
 
+                            // TODO(lexisother): Rework this entire thing into its own system,
+                            //  purely for generalisation purposes. This is really dirty now.
+                            const CHANGELOGS = window
+                                .cordwood!.changelog!.replace(/\r/g, "")
+                                .split("---changelog---\n")
+                                .slice(1)
+                                .map((changelog) => {
+                                    let reachedConfigEnd = false;
+                                    const config: { [key: string]: any } = {};
+                                    const body = changelog
+                                        .split("\n")
+                                        .filter((line) => {
+                                            if (line === "---") {
+                                                reachedConfigEnd = true;
+                                                return false;
+                                            }
+
+                                            if (!reachedConfigEnd) {
+                                                const params = line.split(": ");
+                                                const key = params.shift()!;
+                                                const value = params.join(": ");
+                                                config[key] = JSON.parse(value);
+                                            }
+
+                                            return reachedConfigEnd;
+                                        })
+                                        .join("\n");
+                                    return { ...config, body };
+                                });
+
+                            const changelog: { body: string; [key: string]: any } = CHANGELOGS[0];
+
                             // TODO(lexisother): Add a proper changelog system!
-                            // Hash checking and the likes. As well as actually
-                            // rendering using Discord's fancy Markdown
-                            // rendering system. See the sourcemaps for that.
+                            //   Hash checking and the likes. As well as actually
+                            //   rendering using Discord's fancy Markdown
+                            //   rendering system. See the sourcemaps for that.
                             const header = ret.props.children[0].props.children[0];
                             header[0].props.children = "Cordwood Changelog";
-                            header[1] = " (Jul 13, 2022)";
+                            header[1] = ` (${changelog.date})`;
 
                             const content = ret.props.children[1];
                             content.props.children[0] = null; // remove video
-                            content.props.children[1] = [<Changelog changelog={window.cordwood!.changelog} />];
+                            content.props.children[1] = [<Changelog changelog={changelog} />];
 
                             return ret;
                         },

@@ -21,7 +21,7 @@ try {
         external: ["react"],
         target: "esnext",
         plugins: [
-            alias(aliases)
+          alias(aliases),
         ]
     });
 
