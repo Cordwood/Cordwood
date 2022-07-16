@@ -23,7 +23,7 @@ jobs:
                   pnpm i
 
             - name: Build
-              run: node build.mjs
+              run: npm run build:prod
 
             - name: Push builds
               run: |
