@@ -24,7 +24,6 @@ export default function initialize() {
     });
 
     const TabBar = findByProps("TabBarItem", "TabBarHeader", "TabBarSeparator");
-    const MarkdownModal = findByDisplayName("MarkdownModal");
     after("render", UserSettingsModal.default.prototype, (_, ret) => {
         ret.props.children[0].props.children.props.children[1].push(
             <TabBar.TabBarHeader className="cordwood-settings-header">Cordwood</TabBar.TabBarHeader>,
@@ -33,61 +32,8 @@ export default function initialize() {
             <div
                 className="cordwood-changelog-button"
                 onClick={() => {
+                    applyPatches();
                     // lexisother: I fucking love this patch. Thanks Ducko.
-                    after(
-                        "render",
-                        MarkdownModal.prototype,
-                        (_, ret) => {
-                            if (!ret.props.className.includes("change-log")) return ret;
-
-                            // TODO(lexisother): Rework this entire thing into its own system,
-                            //  purely for generalisation purposes. This is really dirty now.
-                            const CHANGELOGS = window
-                                .cordwood!.changelog!.replace(/\r/g, "")
-                                .split("---changelog---\n")
-                                .slice(1)
-                                .map((changelog) => {
-                                    let reachedConfigEnd = false;
-                                    const config: { [key: string]: any } = {};
-                                    const body = changelog
-                                        .split("\n")
-                                        .filter((line) => {
-                                            if (line === "---") {
-                                                reachedConfigEnd = true;
-                                                return false;
-                                            }
-
-                                            if (!reachedConfigEnd) {
-                                                const params = line.split(": ");
-                                                const key = params.shift()!;
-                                                const value = params.join(": ");
-                                                config[key] = JSON.parse(value);
-                                            }
-
-                                            return reachedConfigEnd;
-                                        })
-                                        .join("\n");
-                                    return { ...config, body };
-                                });
-
-                            const changelog: { body: string; [key: string]: any } = CHANGELOGS[0];
-
-                            // TODO(lexisother): Add a proper changelog system!
-                            //   Hash checking and the likes. As well as actually
-                            //   rendering using Discord's fancy Markdown
-                            //   rendering system. See the sourcemaps for that.
-                            const header = ret.props.children[0].props.children[0];
-                            header[0].props.children = "Cordwood Changelog";
-                            header[1] = ` (${changelog.date})`;
-
-                            const content = ret.props.children[1];
-                            content.props.children[0] = null; // remove video
-                            content.props.children[1] = [<Changelog changelog={changelog} />];
-
-                            return ret;
-                        },
-                        true
-                    );
                     FluxDispatcher.dispatch({ type: "CHANGE_LOG_OPEN" });
                 }}
             >
@@ -98,4 +44,66 @@ export default function initialize() {
             ret.props.children[1].props.children[0].props.children = <SettingsView />;
         }
     });
+}
+
+function applyPatches() {
+    const MarkdownModal = findByDisplayName("MarkdownModal");
+
+    after(
+        "render",
+        MarkdownModal.prototype,
+        (_, ret) => {
+            if (!ret.props.className.includes("change-log")) return ret;
+
+            // TODO(lexisother): Rework this entire thing into its own system,
+            //  purely for generalisation purposes. This is really dirty now.
+            const CHANGELOGS = window
+                .cordwood!.changelog!.replace(/\r/g, "")
+                .split("---changelog---\n")
+                .slice(1)
+                .map((changelog) => {
+                    let reachedConfigEnd = false;
+                    const config: { [key: string]: any } = {};
+                    const body = changelog
+                        .split("\n")
+                        .filter((line) => {
+                            if (line === "---") {
+                                reachedConfigEnd = true;
+                                return false;
+                            }
+
+                            if (!reachedConfigEnd) {
+                                const params = line.split(": ");
+                                const key = params.shift()!;
+                                const value = params.join(": ");
+                                config[key] = JSON.parse(value);
+                            }
+
+                            return reachedConfigEnd;
+                        })
+                        .join("\n");
+                    return { ...config, body };
+                });
+
+            const changelog: { body: string; [key: string]: any } = CHANGELOGS[0];
+
+            // TODO(lexisother): Add a proper changelog system!
+            //   Hash checking and the likes. As well as actually
+            //   rendering using Discord's fancy Markdown
+            //   rendering system. See the sourcemaps for that.
+            const header = ret.props.children[0].props.children[0];
+            header[0].props.children = "Cordwood Changelog";
+            header[1] = ` (${changelog.date})`;
+
+            const footer = ret.props.children[2].props.children;
+            footer[1].props.href = "https://github.com/Cordwood/Cordwood/blob/master/CHANGELOG.md";
+
+            const content = ret.props.children[1];
+            content.props.children[0] = null; // remove video
+            content.props.children[1] = [<Changelog changelog={changelog} />];
+
+            return ret;
+        },
+        true
+    );
 }
