@@ -15,6 +15,8 @@ At the moment, we have:
 * **A patcher** brought to you by [Creatable](https://github.com/cr3atable) and [Yellowsink](https://github.com/Yellowsink), which can be found [here](https://github.com/Cumcord/spitroast).
 * **An epic changelog**. Yeah, we're egotistical like that.
 
+Furthermore, thanks to [Ducko](https://github.com/CanadaHonk) for helping with displaying this very changelog. :)
+
 We're cooking up much more exciting features like **plugins**, **themes**, and some epic UI.
 
 You can track development [here](https://github.com/Cordwood/Cordwood), on our cozy little GitHub repo.
