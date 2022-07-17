@@ -13,7 +13,7 @@ for (const k in process.env) {
     define[`process.env.${k}`] = JSON.stringify(process.env[k]);
 }
 
-process.env.DEV ? (define[`process.env.__CHANGELOG__`] = JSON.stringify(changelog)) : "";
+process.env.DEV === "true" ? (define[`process.env.__CHANGELOG__`] = JSON.stringify(changelog)) : "";
 
 try {
     await build({

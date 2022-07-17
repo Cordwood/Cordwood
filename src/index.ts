@@ -34,7 +34,7 @@ try {
         },
     } as CordwoodObject;
 
-    process.env.DEV
+    process.env.DEV === "true"
         ? (window.cordwood!.changelog = process.env.__CHANGELOG__)
         : fetch("https://raw.githubusercontent.com/Cordwood/Cordwood/master/CHANGELOG.md", { cache: "no-store" }).then((data) => data.text().then((text) => Object.assign(window.cordwood!, { changelog: text })));
 } catch (e: Error | any) {
