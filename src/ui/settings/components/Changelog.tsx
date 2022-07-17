@@ -38,6 +38,35 @@ const render = MarkupUtils.parserFor({
             );
         },
     },
+    shortlink: {
+        shortlinks: {
+            gh: "github.com",
+            srht: "git.sr.ht",
+        },
+        regex: /^\[(.+?)\]\((.+?):([^\/].+?)\)/,
+        order: DEFAULT_LINK_RULE.order - 0.5,
+
+        match(source: string) {
+            return this.regex.exec(source);
+        },
+
+        parse(capture: Capture, parse: Parser, state: State): UnTypedASTNode | ASTNode {
+            return {
+                content: SimpleMarkdown.parseInline(parse, capture[1], state),
+                target: `https://${this.shortlinks[capture[2] as keyof typeof this.shortlinks]}/${capture[3]}`,
+            };
+        },
+
+        react(node: UnTypedASTNode, output: Output<ReactNode>, state: State) {
+            return React.createElement(
+                "a",
+                {
+                    href: node.target,
+                },
+                output(node.content, state)
+            );
+        },
+    },
 });
 
 export default ({ changelog }: { changelog: { body: string; [key: string]: any } }) => {
