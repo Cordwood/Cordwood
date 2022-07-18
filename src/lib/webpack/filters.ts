@@ -30,9 +30,6 @@ export const modules = wpRequire.c;
 export const find = filterModules(modules, true);
 export const findAll = filterModules(modules);
 
-type PropsFinder = <T extends string | symbol>(...props: T[]) => PropIntellisense<T>;
-type PropsFinderAll = <T extends string | symbol>(...props: T[]) => PropIntellisense<T>[];
-
 const propsFilter = (props: (string | symbol)[]) => (m: any) => props.every((p) => m[p] !== undefined);
 const dNameFilter = (name: string, defaultExp: boolean) => (defaultExp ? (m: any) => m.displayName === name : (m: any) => m?.default?.displayName === name);
 

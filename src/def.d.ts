@@ -1,9 +1,6 @@
-import logger from "./lib/logger";
-import { findInTree } from "@utils/findInTree";
-import { findInReactTree } from "@utils/findInReactTree";
-import importPlugin from "@plugins/importPlugin";
-import loadPlugin from "@plugins/loadPlugin";
+import * as _spitroast from "spitroast";
 
+// Alyxia's helper types (spaghetti, but awesome)
 type ArrayType<T> = T extends Array<infer U> ? U : never;
 type AllKeys<T> = T extends any ? keyof T : never;
 type OptionalKeys<T> = T extends any ? { [K in keyof T]-?: {} extends Pick<T, K> ? K : never }[keyof T] : never;
@@ -18,9 +15,28 @@ type DeepPartialAny<T> = {
 };
 type AnyObject = Record<string, any>;
 
+// TODO: Move these to declare module, eventually
 declare global {
+    // Helper types for API functions
     type PropIntellisense<P extends string | symbol> = Record<P, any> & Record<PropertyKey, any>;
+    type LoggerFunction = (content: string) => void;
+    type SearchFilter = (tree: any) => boolean;
+    type PropsFinder = <T extends string | symbol>(...props: T[]) => PropIntellisense<T>;
+    type PropsFinderAll = <T extends string | symbol>(...props: T[]) => PropIntellisense<T>[];
+    interface FindInTreeOptions {
+        walkable?: string[];
+        ignore?: string[];
+        maxDepth?: number;
+    }
 
+    // Types for anything extra added to the window object, by Discord/Hummus or by us
+    interface Window {
+        cordwood?: CordwoodObject;
+        _: typeof import("lodash");
+        webpackJsonp: Function;
+    }
+
+    // Plugin types
     interface CordwoodPlugin {
         main: string;
         url: URL;
@@ -34,25 +50,34 @@ declare global {
         license: string;
     }
 
-    interface Window {
-        cordwood?: CordwoodObject;
-        _: typeof import("lodash");
-        webpackJsonp: Function;
-    }
-
+    // API object
     interface CordwoodObject {
         changelog?: string;
         utils: {
-            logger: typeof logger;
-            findInTree: typeof findInTree;
-            findInReactTree: typeof findInReactTree;
+            logger: {
+                log: LoggerFunction;
+                warn: LoggerFunction;
+                error: LoggerFunction;
+            };
+            findInTree: (tree: { [key: string]: any }, filter: SearchFilter, options: FindInTreeOptions) => any;
+            findInReactTree: (tree: { [key: string]: any }, filter: SearchFilter) => any;
         };
-        patcher: typeof import("spitroast");
-        // TODO: Typing for common object here?
-        webpack: typeof import("@webpack/filters");
+        patcher: {
+            after: typeof _spitroast.after;
+            before: typeof _spitroast.before;
+            instead: typeof _spitroast.instead;
+            unpatchAll: typeof _spitroast.unpatchAll;
+            injectCSS: (style: string) => () => void;
+        };
+        webpack: {
+            findByProps: PropsFinder;
+            findByPropsAll: PropsFinderAll;
+            findByDisplayName: (name: string, defaultExp: boolean) => any;
+            findByDisplayNameAll: (name: string, defaultExp: boolean) => any[];
+        }
         plugins: {
-            importPlugin: typeof importPlugin;
-            loadPlugin: typeof loadPlugin;
+            importPlugin: (url: string) => Promise<CordwoodPlugin>;
+            loadPlugin: (plugin: CordwoodPlugin) => Promise<void>;
             loaded: Array<CordwoodPlugin>;
         }
     }

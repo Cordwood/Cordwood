@@ -1,4 +1,4 @@
-import { findInTree, SearchFilter } from "@utils/findInTree";
+import { findInTree } from "@utils/findInTree";
 
 export function findInReactTree(tree: { [key: string]: any }, filter: SearchFilter): any {
     findInTree(tree, filter, {
