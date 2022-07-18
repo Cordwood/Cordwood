@@ -1,7 +1,7 @@
 {
   "name": "cordwood",
   "version": "1.0.0",
-  "description": "A Discord client mod focused on modularity.",
+  "description": "A client mod for Hummus.",
   "scripts": {
     "build": "cross-env DEV=true node build.mjs",
     "build:prod": "cross-env DEV=false node build.mjs"
