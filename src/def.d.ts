@@ -1,4 +1,6 @@
 import logger from "./lib/logger";
+import importPlugin from "@plugins/importPlugin";
+import loadPlugin from "@plugins/loadPlugin";
 
 type ArrayType<T> = T extends Array<infer U> ? U : never;
 type AllKeys<T> = T extends any ? keyof T : never;
@@ -17,6 +19,19 @@ type AnyObject = Record<string, any>;
 declare global {
     type PropIntellisense<P extends string | symbol> = Record<P, any> & Record<PropertyKey, any>;
 
+    interface CordwoodPlugin {
+        main: string;
+        url: URL;
+        manifest: PluginManifest;
+    }
+
+    type PluginManifest = {
+        name: string;
+        description: string;
+        author: string;
+        license: string;
+    }
+
     interface Window {
         cordwood?: CordwoodObject;
         _: typeof import("lodash");
@@ -29,7 +44,12 @@ declare global {
             logger: typeof logger;
         };
         patcher: typeof import("spitroast");
-        /// TODO: Typing for common object here?
+        // TODO: Typing for common object here?
         webpack: typeof import("@webpack/filters");
+        plugins: {
+            importPlugin: typeof importPlugin;
+            loadPlugin: typeof loadPlugin;
+            loaded: Array<CordwoodPlugin>;
+        }
     }
 }

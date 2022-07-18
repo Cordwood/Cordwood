@@ -29,6 +29,12 @@
             ],
             "@utils/*": [
                 "./src/lib/utils/*"
+            ],
+            "@plugins": [
+                "./src/lib/plugins"
+            ],
+            "@plugins/*": [
+                "./src/lib/plugins/*"
             ]
         }
     }

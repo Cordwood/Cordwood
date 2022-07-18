@@ -1,10 +1,20 @@
-import logger from "@lib/logger";
 import settingsInit from "./ui/settings/settings";
-import patcher, { injectCSS, unpatchAll } from "@lib/patcher";
+
+// Util imports
+import logger from "@lib/logger";
 import { findInTree } from "@utils/findInTree";
 import { findInReactTree } from "@utils/findInReactTree";
+
+// Patcher imports
+import patcher, { injectCSS, unpatchAll } from "@lib/patcher";
+
+// Webpack imports
 import * as webpack from "@webpack/filters";
 import * as common from "@webpack/common";
+
+// Plugin imports
+import importPlugin from "@plugins/importPlugin";
+import loadPlugin from "@plugins/loadPlugin";
 
 if (window.cordwood) throw new Error("Cordwood is already injected...");
 
@@ -26,6 +36,11 @@ try {
         webpack: {
             ...webpack,
             common: { ...common },
+        },
+        plugins: {
+            importPlugin: importPlugin,
+            loadPlugin: loadPlugin,
+            loaded: new Array<CordwoodPlugin>(),
         },
         uninject: () => {
             unpatchAll();
