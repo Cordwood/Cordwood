@@ -1,4 +1,6 @@
 import logger from "./lib/logger";
+import { findInTree } from "@utils/findInTree";
+import { findInReactTree } from "@utils/findInReactTree";
 import importPlugin from "@plugins/importPlugin";
 import loadPlugin from "@plugins/loadPlugin";
 
@@ -40,8 +42,10 @@ declare global {
 
     interface CordwoodObject {
         changelog?: string;
-        util: {
+        utils: {
             logger: typeof logger;
+            findInTree: typeof findInTree;
+            findInReactTree: typeof findInReactTree;
         };
         patcher: typeof import("spitroast");
         // TODO: Typing for common object here?

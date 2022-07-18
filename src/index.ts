@@ -27,7 +27,7 @@ try {
     );
 
     window.cordwood = {
-        util: {
+        utils: {
             logger: logger,
             findInTree,
             findInReactTree,
