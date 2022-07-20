@@ -66,6 +66,7 @@ declare global {
             };
             findInTree: (tree: { [key: string]: any }, filter: SearchFilter, options: FindInTreeOptions) => any;
             findInReactTree: (tree: { [key: string]: any }, filter: SearchFilter) => any;
+            createStyle: (styles: Object) => string;
         };
         patcher: {
             after: typeof _spitroast.after;
@@ -73,6 +74,7 @@ declare global {
             instead: typeof _spitroast.instead;
             unpatchAll: typeof _spitroast.unpatchAll;
             injectCSS: (style: string) => () => void;
+            clearStyles: () => void;
         };
         webpack: {
             findByProps: PropsFinder;

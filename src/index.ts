@@ -4,10 +4,11 @@ import settingsInit from "./ui/settings/settings";
 import logger from "@lib/logger";
 import { findInTree } from "@utils/findInTree";
 import { findInReactTree } from "@utils/findInReactTree";
+import createStyle from "@utils/createStyle";
 import { Storage } from "@lib/utils/localStorage";
 
 // Patcher imports
-import patcher, { injectCSS, unpatchAll } from "@lib/patcher";
+import patcher, { injectCSS, clearStyles, unpatchAll } from "@lib/patcher";
 
 // Webpack imports
 import * as webpack from "@webpack/filters";
@@ -28,10 +29,28 @@ try {
     // I don't know if this affects the existing Flux stores, if it does, call the
     // `initialize` function of our own stores manually.
     Flux.initialize();
-
-    const uninjectStyles = injectCSS(
-        ".cordwood-settings-header{padding-bottom:1rem}.cordwood-changelog-button{cursor:pointer;display:block!important;color:#faa61a!important;font-size:12px!important;padding:8px 6px 10px 20px!important;opacity:.7;-webkit-transition:opacity .2s!important;transition:opacity .2s}.cordwood-changelog-button:hover{opacity:1;color:#faa61a}"
-    );
+    
+    injectCSS(createStyle({
+        ".cordwood-settings-header": {
+            paddingBottom: "1rem",
+        },
+        
+        ".cordwood-changelog-button": {
+            cursor: "pointer",
+            display: "block !important",
+            color: "#faa61a !important",
+            fontSize: "12px !important",
+            padding: "8px 6px 10px 20px !important",
+            opacity: .7,
+            "-webkit-transition": "opacity .2s !important",
+            transition: "opacity .2s",
+        },
+        
+        ".cordwood-changelog-button:hover": {
+            opacity: 1,
+            color: "#faa61a",
+        }    
+    }));
 
     window.cordwood = {
         utils: {
@@ -43,7 +62,8 @@ try {
                 set: Storage.set,
                 remove: Storage.remove,
                 clear: Storage.clear,
-            }
+            },
+            createStyle: createStyle,
         },
         patcher: { ...patcher },
         webpack: {
@@ -57,7 +77,7 @@ try {
         },
         uninject: () => {
             unpatchAll();
-            uninjectStyles();
+            clearStyles();
             delete window.cordwood;
         },
     } as CordwoodObject;
