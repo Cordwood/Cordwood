@@ -4,6 +4,7 @@ import settingsInit from "./ui/settings/settings";
 import logger from "@lib/logger";
 import { findInTree } from "@utils/findInTree";
 import { findInReactTree } from "@utils/findInReactTree";
+import { Storage } from "@lib/utils/localStorage";
 
 // Patcher imports
 import patcher, { injectCSS, unpatchAll } from "@lib/patcher";
@@ -16,14 +17,12 @@ import { Flux } from "@webpack/common";
 // Plugin imports
 import importPlugin from "@plugins/importPlugin";
 import loadPlugin from "@plugins/loadPlugin";
-import { recoverLocalStorage } from "@utils/localStorage";
 
 if (window.cordwood) throw new Error("Cordwood is already injected...");
 
 let erroredOnLoad = false;
 
 try {
-    recoverLocalStorage();
     settingsInit();
     // Since we are adding custom stores, we need to reinitialize all Flux stores.
     // I don't know if this affects the existing Flux stores, if it does, call the
@@ -39,6 +38,12 @@ try {
             logger: logger,
             findInTree,
             findInReactTree,
+            storage: {
+                get: Storage.get,
+                set: Storage.set,
+                remove: Storage.remove,
+                clear: Storage.clear,
+            }
         },
         patcher: { ...patcher },
         webpack: {
