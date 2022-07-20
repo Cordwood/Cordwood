@@ -11,7 +11,6 @@ export default function initialize() {
     const Constants = findByProps("UserSettingsModalSections");
     Object.assign(Constants.UserSettingsModalSections, {
         CORDWOOD: "CORDWOOD",
-        CORDWOOD_CHANGELOG: "CORDWOOD_CHANGELOG",
     });
 
     const UserSettingsModal = findByProps("getUserSettingsModalSections");
@@ -33,7 +32,6 @@ export default function initialize() {
                 className="cordwood-changelog-button"
                 onClick={() => {
                     applyPatches();
-                    // lexisother: I fucking love this patch. Thanks Ducko.
                     FluxDispatcher.dispatch({ type: "CHANGE_LOG_OPEN" });
                 }}
             >
@@ -49,6 +47,7 @@ export default function initialize() {
 function applyPatches() {
     const MarkdownModal = findByDisplayName("MarkdownModal");
 
+    // lexisother: I fucking love this patch. Thanks Ducko.
     after(
         "render",
         MarkdownModal.prototype,

@@ -10,6 +10,7 @@ const changelog = readFileSync("./CHANGELOG.md").toString();
 
 const define = {};
 for (const k in process.env) {
+    if (k === "ProgramFiles(x86)" || k === "CommonProgramFiles(x86)") continue;
     define[`process.env.${k}`] = JSON.stringify(process.env[k]);
 }
 

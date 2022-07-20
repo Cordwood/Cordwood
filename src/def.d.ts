@@ -48,6 +48,11 @@ declare global {
         description: string;
         author: string;
         license: string;
+    };
+
+    interface CordwoodSettings {
+        switch?: boolean;
+        [key: string | number]: any;
     }
 
     // API object
@@ -74,11 +79,11 @@ declare global {
             findByPropsAll: PropsFinderAll;
             findByDisplayName: (name: string, defaultExp: boolean) => any;
             findByDisplayNameAll: (name: string, defaultExp: boolean) => any[];
-        }
+        };
         plugins: {
             importPlugin: (url: string) => Promise<CordwoodPlugin>;
             loadPlugin: (plugin: CordwoodPlugin) => Promise<void>;
             loaded: Array<CordwoodPlugin>;
-        }
+        };
     }
 }

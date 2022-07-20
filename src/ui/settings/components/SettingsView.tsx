@@ -1,9 +1,12 @@
 import { React } from "@webpack/common";
 import { findByDisplayName } from "@webpack/filters";
+import connectStores from "@utils/connectStores";
+import SettingsStore from "@lib/flux/stores/SettingsStore";
+import SettingsActionCreators from "@lib/flux/actions/SettingsActionCreators";
 
 const Checkbox = findByDisplayName("Checkbox");
 
-export default class SettingsView extends React.Component {
+class SettingsView extends React.Component<{ switch?: boolean }> {
     constructor(props = {}) {
         super(props);
         this.state = {
@@ -14,8 +17,20 @@ export default class SettingsView extends React.Component {
     render() {
         return (
             <div className="margin-top-20">
-                <Checkbox onChange={(v: boolean) => console.log(v)} value={false} />
+                <Checkbox
+                    onChange={(v: { target: { checked: boolean } }) => {
+                        SettingsActionCreators.setSwitch(v.target.checked);
+                    }}
+                    defaultChecked={this.props.switch}
+                />
             </div>
         );
     }
 }
+
+// @ts-expect-error Inheritance... I should probably add a custom type for `Flux.Store` so it understands.
+export default connectStores([SettingsStore], () => {
+    return {
+        switch: SettingsStore.getSwitch(),
+    };
+})(SettingsView);
