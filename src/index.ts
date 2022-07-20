@@ -2,8 +2,8 @@ import settingsInit from "./ui/settings/settings";
 
 // Util imports
 import logger from "@lib/logger";
-import { findInTree } from "@utils/findInTree";
-import { findInReactTree } from "@utils/findInReactTree";
+import findInTree from "@utils/findInTree";
+import findInReactTree from "@utils/findInReactTree";
 import createStyle from "@utils/createStyle";
 import { Storage } from "@lib/utils/localStorage";
 
@@ -29,7 +29,7 @@ try {
     // I don't know if this affects the existing Flux stores, if it does, call the
     // `initialize` function of our own stores manually.
     Flux.initialize();
-    
+
     injectCSS(createStyle({
         ".cordwood-settings-header": {
             paddingBottom: "1rem",

@@ -1,6 +1,6 @@
-import { findInTree } from "@utils/findInTree";
+import findInTree from "@utils/findInTree";
 
-export function findInReactTree(tree: { [key: string]: any }, filter: SearchFilter): any {
+export default function findInReactTree(tree: { [key: string]: any }, filter: SearchFilter): any {
     findInTree(tree, filter, {
         walkable: ["props", "children", "child", "sibling"],
     });
