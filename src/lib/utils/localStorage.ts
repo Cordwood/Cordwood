@@ -1,53 +1,26 @@
-function getLocalStoragePropertyDescriptor() {
-    const frame = document.createElement("frame");
-    frame.src = "about:blank";
-
-    document.body.appendChild(frame);
-
-    let r = Object.getOwnPropertyDescriptor(frame.contentWindow, "localStorage");
-
-    frame.remove();
-
-    return r;
-}
-
-export function recoverLocalStorage() {
-    Object.defineProperty(window, "localStorage", {
-        ...getLocalStoragePropertyDescriptor(),
-    });
-    return () => {
-        // @ts-expect-error Fuck you.
-        delete window.localStorage;
-    };
-}
+import { get, set, del, clear } from "idb-keyval";
 
 class LocalStorage {
-    get<T>(key: string, defaultValue: string | null = null): T {
-        let value = localStorage.getItem(key);
+    async get<T>(key: string, defaultValue: any | null = null): Promise<T> {
+        let value = await get(key);
 
-        if (value != null) {
-            try {
-                value = JSON.parse(value);
-            } catch (e) {
-                value = defaultValue;
-            }
-        } else {
+        if (!value) {
             value = defaultValue;
         }
 
         return value as unknown as T;
     }
 
-    set(key: string, value: any) {
-        localStorage.setItem(key, JSON.stringify(value));
+    async set(key: string, value: any) {
+        await set(key, value);
     }
 
-    remove(key: string) {
-        localStorage.removeItem(key);
+    async remove(key: string) {
+        await del(key);
     }
 
-    clear() {
-        localStorage.clear();
+    async clear() {
+        await clear();
     }
 }
 

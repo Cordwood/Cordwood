@@ -7,7 +7,7 @@ const localSettings: CordwoodSettings = {
     switch: false,
 };
 
-function handleSettingsUpdate(newSettings: CordwoodSettings) {
+async function handleSettingsUpdate(newSettings: CordwoodSettings) {
     let emitChange = false;
 
     const cachedSettings: CordwoodSettings = {};
@@ -21,7 +21,7 @@ function handleSettingsUpdate(newSettings: CordwoodSettings) {
     }
 
     if (emitChange) {
-        Storage.set(CACHE_KEY, cachedSettings);
+        await Storage.set(CACHE_KEY, cachedSettings);
     }
 
     return emitChange;
@@ -32,10 +32,10 @@ class SettingsStore extends Flux.Store {
         super(Dispatcher, cb);
     }
 
-    initialize() {
-        const cachedSettings = Storage.get<CordwoodSettings>(CACHE_KEY);
+    async initialize() {
+        const cachedSettings = await Storage.get<CordwoodSettings>(CACHE_KEY);
         if (cachedSettings != null) {
-            handleSettingsUpdate(cachedSettings);
+            await handleSettingsUpdate(cachedSettings);
         }
     }
 
@@ -44,10 +44,10 @@ class SettingsStore extends Flux.Store {
     }
 }
 
-export default new SettingsStore(FluxDispatcher, (action) => {
+export default new SettingsStore(FluxDispatcher, async(action) => {
     switch (action.type) {
         case "CORDWOOD_SETTINGS_UPDATE":
-            return handleSettingsUpdate(action.settings);
+            return await handleSettingsUpdate(action.settings);
 
         default:
             return false;
