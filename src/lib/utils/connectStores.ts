@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { React } from "@webpack/common";
 
 type Diff<A, B> = { [K in Exclude<keyof A, B>]: A[K] };
@@ -32,12 +34,10 @@ function shallowEqual(a: Record<string, any>, b: Record<string, any>, ignore?: A
 }
 
 function getDisplayName(Component: ReactClass<any, any>): string {
-    // @ts-expect-error yes.
     return Component.displayName || Component.name || "Component";
 }
 
 export default function connectStores<DefaultProps, Props, State>(stores: Array<Store>, getStateFromStores: (props: Props) => State): (Component: ReactClass<DefaultProps, Props>) => ReactClass<DefaultProps, Diff<Props, State>> {
-    // @ts-expect-error yes.
     return (Component) => {
         return class extends React.Component<any, any, any> {
             static displayName = `FluxContainer(${getDisplayName(Component)})`;
