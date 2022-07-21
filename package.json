@@ -4,7 +4,8 @@
   "description": "A client mod for Hummus.",
   "scripts": {
     "build": "cross-env DEV=true node build.mjs",
-    "build:prod": "cross-env DEV=false node build.mjs"
+    "build:prod": "cross-env DEV=false node build.mjs",
+    "format": "prettier -w {**/*,*}.{js,ts,jsx,tsx,css,scss}"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,10 @@
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.49",
     "esbuild-plugin-alias": "^0.2.1",
+    "esbuild-sass-plugin": "^2.3.0",
+    "postcss": "^8.4.14",
+    "postcss-modules": "^4.3.1",
+    "prettier": "^2.7.1",
     "simple-markdown": "^0.7.3",
     "typescript": "^4.7.4"
   },

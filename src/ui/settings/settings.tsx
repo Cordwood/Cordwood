@@ -4,6 +4,7 @@ import { after } from "@lib/patcher";
 import initChangelog from "./changelog";
 import SettingsView from "./components/SettingsView";
 import Changelog from "./components/Changelog";
+import styles from "@/styles.scss";
 
 export default function initialize() {
     initChangelog();
@@ -25,11 +26,11 @@ export default function initialize() {
     const TabBar = findByProps("TabBarItem", "TabBarHeader", "TabBarSeparator");
     after("render", UserSettingsModal.default.prototype, (_, ret) => {
         ret.props.children[0].props.children.props.children[1].push(
-            <TabBar.TabBarHeader className="cordwood-settings-header">Cordwood</TabBar.TabBarHeader>,
+            <TabBar.TabBarHeader className={styles.cordwoodSettingsHeader}>Cordwood</TabBar.TabBarHeader>,
             <TabBar.TabBarItem key="CORDWOOD">Plugins</TabBar.TabBarItem>,
 
             <div
-                className="cordwood-changelog-button"
+                className={styles.cordwoodChangelogButton}
                 onClick={() => {
                     applyPatches();
                     FluxDispatcher.dispatch({ type: "CHANGE_LOG_OPEN" });

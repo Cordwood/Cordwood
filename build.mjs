@@ -1,4 +1,5 @@
 import alias from "esbuild-plugin-alias";
+import { postcssModules, sassPlugin } from "esbuild-sass-plugin";
 import { build } from "esbuild";
 import fs from "fs/promises";
 import { readFileSync } from "fs";
@@ -26,7 +27,7 @@ try {
         external: ["react"],
         target: "esnext",
         define,
-        plugins: [alias(aliases)],
+        plugins: [alias(aliases), sassPlugin({style:"compressed", transform: postcssModules({localsConvention: 'camelCaseOnly'}) })],
     });
 
     await fs.appendFile("./dist/index.js", "//# sourceURL=Cordwood");
