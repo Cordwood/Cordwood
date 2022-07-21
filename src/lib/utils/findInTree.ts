@@ -2,6 +2,8 @@
   Disclaimer: https://github.com/Cumcord/Cumcord/blob/1f88853091087e39c64d9f769ea4895763412a6a/src/api/utils/findInTree.js
  */
 
+import { FindInTreeOptions, SearchFilter } from "@/headers/def";
+
 export default function findInTree(tree: { [key: string]: any }, filter: SearchFilter, { walkable = [], ignore = [], maxDepth = 100 }: FindInTreeOptions = {}): any {
     let iteration = 0;
 

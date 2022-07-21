@@ -1,4 +1,5 @@
 import wpRequire from "./wpRequire";
+import { PropsFinder, PropsFinderAll } from "@/headers/def";
 
 const filterModules =
     (modules: any[], single = false) =>

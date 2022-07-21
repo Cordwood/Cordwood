@@ -1,5 +1,6 @@
 import { Flux, FluxDispatcher } from "@webpack/common";
 import { Storage } from "@utils/localStorage";
+import { CordwoodSettings } from "@/headers/def";
 
 const CACHE_KEY = "CordwoodSettingsStore";
 

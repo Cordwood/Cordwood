@@ -1,3 +1,4 @@
+import { CordwoodObject, CordwoodPlugin } from "@/headers/def";
 import settingsInit from "./ui/settings/settings";
 // Util imports
 import logger from "@lib/logger";
