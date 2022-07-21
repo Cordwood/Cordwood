@@ -1,6 +1,5 @@
 import { React } from "@webpack/common";
 import { findByDisplayName } from "@webpack/filters";
-import FormTitle from "@/ui/settings/components/FormTitle";
 
 const Scroller = findByDisplayName("Scroller");
 
@@ -10,7 +9,8 @@ export default class AboutView extends React.Component {
     render() {
         return (
             <Scroller className={"settings-wrapper settings-panel"}>
-                <FormTitle tag={FormTitle.Tags.H1}>Cordwood</FormTitle>
+                <img style={{ width: "100%" }} src={"https://raw.githubusercontent.com/Cordwood/Cordwood/master/.assets/cordwood-transparent-black.png"} />
+                <p style={{ position: "absolute", bottom: 0 }}>Made with ❤️ by Beef and Alyxia</p>
             </Scroller>
         );
     }
