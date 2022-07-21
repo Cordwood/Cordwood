@@ -2,22 +2,23 @@ import { FluxDispatcher, React } from "@webpack/common";
 import { findByDisplayName, findByProps } from "@webpack/filters";
 import { after } from "@lib/patcher";
 import initChangelog from "./changelog";
-import SettingsView from "./components/SettingsView";
-import Changelog from "./components/Changelog";
-import styles from "@/styles.scss";
+import SettingsView from "./views/SettingsView";
+import Changelog from "./views/Changelog";
+import styles from "@styles/core.scss";
 
 export default function initialize() {
     initChangelog();
 
     const Constants = findByProps("UserSettingsModalSections");
     Object.assign(Constants.UserSettingsModalSections, {
-        CORDWOOD: "CORDWOOD",
+        CORDWOOD_SETTINGS: "CORDWOOD_SETTINGS",
+        CORDWOOD_PLUGINS: "CORDWOOD_PLUGINS",
     });
 
     const UserSettingsModal = findByProps("getUserSettingsModalSections");
     after("getUserSettingsModalSections", UserSettingsModal, (_, ret) => {
         ret.push({
-            section: Constants.UserSettingsModalSections.CORDWOOD,
+            section: Constants.UserSettingsModalSections.CORDWOOD_SETTINGS,
             label: "Cordwood",
             element: SettingsView,
         });
@@ -27,7 +28,7 @@ export default function initialize() {
     after("render", UserSettingsModal.default.prototype, (_, ret) => {
         ret.props.children[0].props.children.props.children[1].push(
             <TabBar.TabBarHeader className={styles.cordwoodSettingsHeader}>Cordwood</TabBar.TabBarHeader>,
-            <TabBar.TabBarItem key="CORDWOOD">Plugins</TabBar.TabBarItem>,
+            <TabBar.TabBarItem key="CORDWOOD_SETTINGS">Settings</TabBar.TabBarItem>,
 
             <div
                 className={styles.cordwoodChangelogButton}
@@ -39,7 +40,7 @@ export default function initialize() {
                 Cordwood Change Log
             </div>
         );
-        if (ret.props.children[0].props.children.props.selectedItem === "CORDWOOD") {
+        if (ret.props.children[0].props.children.props.selectedItem === "CORDWOOD_SETTINGS") {
             ret.props.children[1].props.children[0].props.children = <SettingsView />;
         }
     });

@@ -1,4 +1,4 @@
-import { CordwoodObject } from "@/headers/def";
+import { CordwoodObject } from "./def";
 
 declare global {
     interface Window {

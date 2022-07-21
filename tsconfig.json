@@ -12,33 +12,16 @@
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "paths": {
-            "@/*": [
-                "./src/*"
-            ],
-            "@lib": [
-                "./src/lib"
-            ],
-            "@lib/*": [
-                "./src/lib/*"
-            ],
-            "@webpack": [
-                "./src/lib/webpack"
-            ],
-            "@webpack/*": [
-                "./src/lib/webpack/*"
-            ],
-            "@utils": [
-                "./src/lib/utils"
-            ],
-            "@utils/*": [
-                "./src/lib/utils/*"
-            ],
-            "@plugins": [
-                "./src/lib/plugins"
-            ],
-            "@plugins/*": [
-                "./src/lib/plugins/*"
-            ]
+            "@/*": ["./src/*"],
+            "@lib": ["./src/lib"],
+            "@lib/*": ["./src/lib/*"],
+            "@webpack": ["./src/lib/webpack"],
+            "@webpack/*": ["./src/lib/webpack/*"],
+            "@utils": ["./src/lib/utils"],
+            "@utils/*": ["./src/lib/utils/*"],
+            "@plugins": ["./src/lib/plugins"],
+            "@plugins/*": ["./src/lib/plugins/*"],
+            "@styles/*": ["./src/styles/*"]
         }
     }
 }
