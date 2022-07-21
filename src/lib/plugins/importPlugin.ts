@@ -1,3 +1,5 @@
+import { CordwoodPlugin, PluginManifest } from "@/headers/def";
+
 export default async function importPlugin(url: string) {
     // Define options
     const noCache = { cache: "no-cache" } as RequestInit;
@@ -20,7 +22,7 @@ export default async function importPlugin(url: string) {
         pluginManifest = await manifestReq.json();
     } catch (e) {
         throw new Error(`Could not parse manifest for plugin at ${url}`);
-    };
+    }
 
     // Get the plugin's main file (index.js)
     let pluginMain: string;
