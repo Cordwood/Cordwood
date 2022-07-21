@@ -1,11 +1,13 @@
 import { FluxDispatcher } from "@webpack/common";
 
+// TODO: Generalize, e.g. `setSettings('key', 'value');
+//  would need an update to the handler
 export default {
-    setSwitch(val: boolean) {
+    setFlux(val: boolean) {
         FluxDispatcher.dispatch({
             type: "CORDWOOD_SETTINGS_UPDATE",
             settings: {
-                switch: val,
+                fluxLogger: val,
             },
         });
     },

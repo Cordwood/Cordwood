@@ -29,7 +29,7 @@ type PluginManifest = {
 };
 
 interface CordwoodSettings {
-    switch?: boolean;
+    fluxLogger?: boolean;
     [key: string | number]: any;
 }
 

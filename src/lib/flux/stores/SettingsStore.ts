@@ -5,7 +5,7 @@ import { CordwoodSettings } from "@/headers/def";
 const CACHE_KEY = "CordwoodSettingsStore";
 
 const localSettings: CordwoodSettings = {
-    switch: false,
+    fluxLogger: false,
 };
 
 async function handleSettingsUpdate(newSettings: CordwoodSettings) {
@@ -40,12 +40,12 @@ class SettingsStore extends Flux.Store {
         }
     }
 
-    getSwitch() {
-        return localSettings.switch;
+    get fluxLogger() {
+        return localSettings.fluxLogger;
     }
 }
 
-export default new SettingsStore(FluxDispatcher, async(action) => {
+export default new SettingsStore(FluxDispatcher, async (action) => {
     switch (action.type) {
         case "CORDWOOD_SETTINGS_UPDATE":
             return await handleSettingsUpdate(action.settings);

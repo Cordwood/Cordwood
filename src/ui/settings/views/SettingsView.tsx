@@ -8,12 +8,9 @@ const Scroller = findByDisplayName("Scroller");
 const Checkbox = findByDisplayName("Checkbox");
 
 // TODO: Rewrite with UIKit.
-class SettingsView extends React.Component<{ switch?: boolean }> {
+class SettingsView extends React.Component<{ fluxLogger?: boolean }> {
     constructor(props = {}) {
         super(props);
-        this.state = {
-            toggled: 0,
-        };
     }
 
     render() {
@@ -26,9 +23,9 @@ class SettingsView extends React.Component<{ switch?: boolean }> {
                             <li>
                                 <Checkbox
                                     onChange={(v: { target: { checked: boolean } }) => {
-                                        SettingsActionCreators.setSwitch(v.target.checked);
+                                        SettingsActionCreators.setFlux(v.target.checked);
                                     }}
-                                    defaultChecked={this.props.switch}
+                                    defaultChecked={this.props.fluxLogger}
                                 >
                                     Log everything that passes through the Flux Dispatcher.
                                 </Checkbox>
@@ -47,6 +44,6 @@ class SettingsView extends React.Component<{ switch?: boolean }> {
 // @ts-expect-error Inheritance... I should probably add a custom type for `Flux.Store` so it understands.
 export default connectStores([SettingsStore], () => {
     return {
-        switch: SettingsStore.getSwitch(),
+        fluxLogger: SettingsStore.fluxLogger,
     };
 })(SettingsView);

@@ -18,6 +18,7 @@ import { Flux } from "@webpack/common";
 // Plugin imports
 import importPlugin from "@plugins/importPlugin";
 import loadPlugin from "@plugins/loadPlugin";
+import initDebug from "@/debug";
 
 if (window.cordwood) throw new Error("Cordwood is already injected...");
 
@@ -29,6 +30,8 @@ try {
     // I don't know if this affects the existing Flux stores, if it does, call the
     // `initialize` function of our own stores manually.
     Flux.initialize();
+
+    initDebug();
 
     window.cordwood = {
         utils: {
