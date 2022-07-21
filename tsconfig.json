@@ -21,7 +21,8 @@
             "@utils/*": ["./src/lib/utils/*"],
             "@plugins": ["./src/lib/plugins"],
             "@plugins/*": ["./src/lib/plugins/*"],
-            "@styles/*": ["./src/styles/*"]
+            "@styles/*": ["./src/styles/*"],
+            "@uikit/*": ["./src/ui/uikit/*"]
         }
     }
 }

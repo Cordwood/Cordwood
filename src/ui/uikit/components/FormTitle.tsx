@@ -1,6 +1,7 @@
 import { React } from "@webpack/common";
 import classNames from "classnames";
-import styles from "@styles/uitkit.scss";
+import TextStyles from "@uikit/styles/text.mod.scss";
+import Colors from "@uikit/styles/colors.mod.scss";
 
 export type Tag = "h1" | "h2" | "h3" | "h4" | "h5";
 enum Tags {
@@ -33,12 +34,12 @@ export default class FormTitle extends React.PureComponent {
 
     render() {
         const { tag: Tag, className, children, faded, ...props } = this.props;
-        const defaultFontColor = !props.color && Tag !== Tags.H5 ? styles.defaultColor : null;
+        const defaultFontColor = !props.color && Tag !== Tags.H5 ? Colors.defaultColor : null;
 
         return (
             <Tag
-                className={classNames(styles[Tag], className, defaultFontColor, {
-                    [styles.faded]: faded,
+                className={classNames(TextStyles[Tag], className, defaultFontColor, {
+                    [TextStyles.faded]: faded,
                 })}
                 {...props}
             >
