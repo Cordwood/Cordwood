@@ -9,6 +9,7 @@ const Checkbox = findByDisplayName("Checkbox");
 
 // TODO: Rewrite with UIKit.
 class SettingsView extends React.Component<{ fluxLogger?: boolean }> {
+    static displayName = "SettingsView";
     constructor(props = {}) {
         super(props);
     }

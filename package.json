@@ -5,7 +5,8 @@
   "scripts": {
     "build": "cross-env DEV=true node build.mjs",
     "build:prod": "cross-env DEV=false node build.mjs",
-    "format": "prettier -w {**/*,*}.{js,ts,jsx,tsx,css,scss}"
+    "format": "prettier -w {**/*,*}.{js,ts,jsx,tsx,css,scss}",
+    "format:file": "prettier -w "
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "@types/node": "^18.0.5",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "classnames": "^2.3.1",
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.49",
     "esbuild-plugin-alias": "^0.2.1",

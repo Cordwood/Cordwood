@@ -5,12 +5,14 @@ import initChangelog from "./changelog";
 import SettingsView from "./views/SettingsView";
 import Changelog from "./views/Changelog";
 import styles from "@styles/core.scss";
+import AboutView from "@/ui/settings/views/AboutView";
 
 export default function initialize() {
     initChangelog();
 
     const Constants = findByProps("UserSettingsModalSections");
     Object.assign(Constants.UserSettingsModalSections, {
+        CORDWOOD_ABOUT: "CORDWOOD_ABOUT",
         CORDWOOD_SETTINGS: "CORDWOOD_SETTINGS",
         CORDWOOD_PLUGINS: "CORDWOOD_PLUGINS",
     });
@@ -28,6 +30,7 @@ export default function initialize() {
     after("render", UserSettingsModal.default.prototype, (_, ret) => {
         ret.props.children[0].props.children.props.children[1].push(
             <TabBar.TabBarHeader className={styles.cordwoodSettingsHeader}>Cordwood</TabBar.TabBarHeader>,
+            <TabBar.TabBarItem key="CORDWOOD_ABOUT">About</TabBar.TabBarItem>,
             <TabBar.TabBarItem key="CORDWOOD_SETTINGS">Settings</TabBar.TabBarItem>,
 
             <div
@@ -40,6 +43,9 @@ export default function initialize() {
                 Cordwood Change Log
             </div>
         );
+        if (ret.props.children[0].props.children.props.selectedItem === "CORDWOOD_ABOUT") {
+            ret.props.children[1].props.children[0].props.children = <AboutView />
+        }
         if (ret.props.children[0].props.children.props.selectedItem === "CORDWOOD_SETTINGS") {
             ret.props.children[1].props.children[0].props.children = <SettingsView />;
         }

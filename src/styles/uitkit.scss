@@ -1,0 +1,48 @@
+// Colors {{{
+.defaultColor {
+  color: #4f545c;
+}
+// }}}
+
+// Tags {{{
+.h1 {
+  font-size: 20px;
+  line-height: 24px;
+
+  &, .h2 {
+    font-weight: 500;
+  }
+}
+.h2 {
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
+.h3 {
+  line-height: 24px;
+  font-weight: 400;
+
+  &, .h4 {
+    font-size: 16px;
+  }
+}
+.h4 {
+  line-height: 20px;
+  letter-spacing: .3px;
+
+  &, .h5 {
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+}
+.h5 {
+  font-size: 12px;
+  line-height: 16px;
+}
+// }}}
+
+// Text formatting {{{
+.faded {
+  color: hsla(218, 5% ,47%, .6);
+}
+// }}}
