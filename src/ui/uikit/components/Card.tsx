@@ -14,7 +14,7 @@ const Types = {
 
 interface Props {
     type: string;
-    outline: boolean;
+    outline?: boolean;
     className?: string;
     children?: any;
 }
@@ -30,7 +30,7 @@ export default class Card extends React.PureComponent {
     declare props: Props;
     static defaultProps: DefaultProps = {
         type: Types.PRIMARY,
-        outline: false,
+        outline: true,
     };
 
     render() {
@@ -40,7 +40,7 @@ export default class Card extends React.PureComponent {
         if (outline) mode = "outline";
 
         return (
-            <div className={classNames(className, getClass(Styles, type, mode))} {...attrs}>
+            <div className={classNames(Styles.card, className, getClass(Styles, type, mode))} {...attrs}>
                 {children}
             </div>
         );

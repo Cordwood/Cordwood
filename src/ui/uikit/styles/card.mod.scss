@@ -1,7 +1,69 @@
-.cardPrimary {
-  color: red;
+@import "colors.mod.scss";
+@import "text.mod.scss";
+
+.card {
+  position: relative;
+  margin: 0 0 15px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 22px;
 }
 
-.cardPrimaryOutline {
-  color: blue;
+// Primary {{{
+.cardPrimary {
+  color: $text-normal;
+  background: $background-primary;
 }
+.cardPrimaryOutline {
+  color: $text-normal;
+  background: $background-primary;
+  border: 1px solid $background-tertiary;
+}
+// }}}
+
+// Success {{{
+.cardSuccess {
+  color: $color-success;
+  background: #daffd1;
+}
+.cardSuccessOutline {
+  color: $color-success;
+  background: #daffd1;
+  border: 1px solid $color-success;
+}
+// }}}
+
+// Warning {{{
+.cardWarning {
+  color: $color-warning;
+  background: #ffefd1;
+}
+.cardWarningOutline {
+  color: $color-warning;
+  background: #ffefd1;
+  border: 1px solid $color-warning;
+}
+// }}}
+
+// Danger {{{
+.cardDanger {
+  color: $color-danger;
+  background: #fdecec;
+}
+.cardDangerOutline {
+  color: $color-danger;
+  background: #fdecec;
+  border: 1px solid $color-danger;
+}
+// }}}
+
+// Brand {{{
+.cardBrand {
+  background: rgba(88, 101, 242, .1);
+}
+.cardBrandOutline {
+  background: rgba(88, 101, 242, .1);
+  border: 2px solid rgba(88, 101, 242, .5);
+}
+// }}}

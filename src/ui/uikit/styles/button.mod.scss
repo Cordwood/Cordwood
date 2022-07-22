@@ -1,0 +1,16 @@
+.button {
+    padding: 5px 30px;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 600;
+    -webkit-transition: background-color .2s ease;
+    transition: background-color .2s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.buttonPrimary {
+    border-radius: 3px;
+    background-color: #7289da;
+    color: #fff;
+}
