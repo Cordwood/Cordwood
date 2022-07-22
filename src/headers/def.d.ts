@@ -1,4 +1,5 @@
 import * as _spitroast from "spitroast";
+import { components } from "@octokit/openapi-types";
 
 // Definition-local types
 type LoggerFunction = (content: string) => void;
@@ -31,6 +32,11 @@ type PluginManifest = {
 interface CordwoodSettings {
     fluxLogger?: boolean;
     [key: string | number]: any;
+}
+
+interface CordwoodData {
+    commitData?: components["schemas"]["commit"][];
+    [key: string]: any;
 }
 
 // API object
@@ -66,7 +72,6 @@ interface CordwoodObject {
         loaded: Array<CordwoodPlugin>;
     };
 }
-
 
 // Alyxia's helper types (spaghetti, but awesome)
 type ArrayType<T> = T extends Array<infer U> ? U : never;
