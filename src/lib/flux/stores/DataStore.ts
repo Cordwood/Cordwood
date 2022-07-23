@@ -4,13 +4,18 @@ import { CordwoodData } from "@/headers/def";
 import { components } from "@octokit/openapi-types";
 import fetch from "sync-fetch";
 
-const CACHE_KEY = "CordwoodDataStore";
-const localData: CordwoodData = {
-    commitData: fetch("https://api.github.com/repos/Cordwood/Cordwood/commits", {
+export function getCommits() {
+    return fetch("https://api.github.com/repos/Cordwood/Cordwood/commits", {
         headers: {
             Accept: "application/vnd.github+json",
         },
-    }).json() as unknown as components["schemas"]["commit"][],
+    }).json();
+}
+
+const CACHE_KEY = "CordwoodDataStore";
+const localData: CordwoodData = {
+    commitData: [] as unknown as components["schemas"]["commit"][],
+    latestFetch: 0,
 };
 
 async function handleDataUpdate(newData: CordwoodData) {
@@ -26,7 +31,6 @@ async function handleDataUpdate(newData: CordwoodData) {
         cachedData[key] = localData[key];
     }
 
-    console.log(emitChange);
     if (emitChange) {
         await Storage.set(CACHE_KEY, cachedData);
     }
@@ -48,6 +52,10 @@ class DataStore extends Flux.Store {
 
     get commitData() {
         return localData.commitData;
+    }
+
+    get latestFetch() {
+        return localData.latestFetch;
     }
 }
 

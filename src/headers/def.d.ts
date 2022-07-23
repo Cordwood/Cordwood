@@ -36,6 +36,7 @@ interface CordwoodSettings {
 
 interface CordwoodData {
     commitData?: components["schemas"]["commit"][];
+    latestFetch?: number;
     [key: string]: any;
 }
 

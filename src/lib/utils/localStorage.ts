@@ -1,4 +1,4 @@
-import { get, set, del, clear } from "idb-keyval";
+import { clear, del, get, set } from "idb-keyval";
 
 class LocalStorage {
     async get<T>(key: string, defaultValue: any | null = null): Promise<T> {
