@@ -1,6 +1,7 @@
 import { FluxDispatcher, React } from "@webpack/common";
 import { findByDisplayName, findByProps } from "@webpack/filters";
 import { after } from "@lib/patcher";
+import findInTree from "@utils/findInTree";
 import initChangelog from "./changelog";
 import SettingsView from "./views/SettingsView";
 import Changelog from "./views/Changelog";
@@ -28,7 +29,9 @@ export default function initialize() {
 
     const TabBar = findByProps("TabBarItem", "TabBarHeader", "TabBarSeparator");
     after("render", UserSettingsModal.default.prototype, (_, ret) => {
-        ret.props.children[0].props.children.props.children[1].push(
+        const settingsHeader = findInTree(ret, (t) => t?.selectedItem);
+        const settingsInner = findInTree(ret, (t) => t.props?.className.trim?.() === "settings-inner")
+        settingsHeader.children[1].push(
             <TabBar.TabBarHeader className={styles.cordwoodSettingsHeader}>Cordwood</TabBar.TabBarHeader>,
             <TabBar.TabBarItem key="CORDWOOD_ABOUT">About</TabBar.TabBarItem>,
             <TabBar.TabBarItem key="CORDWOOD_SETTINGS">Settings</TabBar.TabBarItem>,
@@ -43,11 +46,11 @@ export default function initialize() {
                 Cordwood Change Log
             </div>
         );
-        if (ret.props.children[0].props.children.props.selectedItem === "CORDWOOD_ABOUT") {
-            ret.props.children[1].props.children[0].props.children = <AboutView />
+        if (settingsHeader.selectedItem === "CORDWOOD_ABOUT") {
+            settingsInner.props.children = <AboutView />
         }
-        if (ret.props.children[0].props.children.props.selectedItem === "CORDWOOD_SETTINGS") {
-            ret.props.children[1].props.children[0].props.children = <SettingsView />;
+        if (settingsHeader.selectedItem === "CORDWOOD_SETTINGS") {
+            settingsInner.props.children = <SettingsView />;
         }
     });
 }
