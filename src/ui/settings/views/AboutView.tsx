@@ -11,7 +11,7 @@ export default class AboutView extends React.Component {
     render() {
         return (
             <Scroller className={"settings-wrapper settings-panel"}>
-                <img style={{ width: "100%" }} src={"https://raw.githubusercontent.com/Cordwood/Cordwood/master/.assets/cordwood-transparent-black.png"} />
+                <img style={{ width: "100%" }} src={"https://raw.githubusercontent.com/Cordwood/Cordwood/master/.assets/banner/cordwood-transparent-black.png"} />
 
                 <Updater />
 
