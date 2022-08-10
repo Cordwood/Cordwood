@@ -28,6 +28,7 @@ try {
         target: "esnext",
         define,
         plugins: [alias(aliases), sassPlugin({style:"compressed", transform: postcssModules({localsConvention: 'camelCaseOnly'}) })],
+        legalComments: "external",
     });
 
     await fs.appendFile("./dist/index.js", "//# sourceURL=Cordwood");
