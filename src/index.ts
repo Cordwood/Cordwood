@@ -1,5 +1,6 @@
 import { CordwoodObject, CordwoodPlugin } from "@/headers/def";
 import settingsInit from "./ui/settings/settings";
+import dashboardInit from "./ui/dashboard/index";
 // Util imports
 import logger from "@lib/logger";
 import findInTree from "@utils/findInTree";
@@ -26,6 +27,7 @@ let erroredOnLoad = false;
 
 try {
     settingsInit();
+    dashboardInit();
     // Since we are adding custom stores, we need to reinitialize all Flux stores.
     // I don't know if this affects the existing Flux stores, if it does, call the
     // `initialize` function of our own stores manually.
