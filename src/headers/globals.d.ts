@@ -5,5 +5,6 @@ declare global {
         cordwood?: CordwoodObject;
         _: typeof import("lodash");
         webpackJsonp: Function;
+        [key: string]: any;
     }
 }

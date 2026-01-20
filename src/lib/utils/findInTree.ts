@@ -4,37 +4,39 @@
 
 import { FindInTreeOptions, SearchFilter } from "@/headers/def";
 
-export default function findInTree(tree: { [key: string]: any }, filter: SearchFilter, { walkable = [], ignore = [], maxDepth = 100 }: FindInTreeOptions = {}): any {
+export default function findInTree(tree: { [key: string]: any }, searchFilter: SearchFilter, { walkable = [], ignore = [], maxDepth = 100 }: FindInTreeOptions = {}) {
     let iteration = 0;
 
     function doSearch(tree: { [key: string]: any }, filter: SearchFilter, { walkable = [], ignore = [] }: FindInTreeOptions = {}): any {
         iteration += 1;
         if (iteration > maxDepth) return;
 
-        if (typeof filter === "string") {
-            if (tree.hasOwnProperty(filter)) return tree[filter];
-        } else if (filter(tree)) return tree;
+        if (typeof searchFilter === "string") {
+            if (tree.hasOwnProperty(searchFilter)) return tree[searchFilter];
+        } else if (searchFilter(tree)) return tree;
 
         if (!tree) return;
 
         if (Array.isArray(tree)) {
             for (const item of tree) {
-                const found = doSearch(item, filter, { walkable, ignore });
+                const found = doSearch(item, searchFilter, { walkable, ignore });
                 if (found) return found;
             }
         } else if (typeof tree === "object") {
             for (const key of Object.keys(tree)) {
-                if (walkable != null && walkable.includes(key)) continue;
+                if (walkable != null && !walkable.includes(key)) continue;
 
                 if (ignore.includes(key)) continue;
 
                 try {
-                    const found = doSearch(tree[key], filter, { walkable, ignore });
+                    const found = doSearch(tree[key], searchFilter, { walkable, ignore });
                     if (found) return found;
                 } catch {}
             }
         }
     }
 
-    return doSearch(tree, filter, { walkable, ignore });
+    return doSearch(tree, searchFilter, { walkable, ignore });
 }
+
+export const findInReactTree = (tree: { [key: string]: any }, searchFilter: SearchFilter) => findInTree(tree, searchFilter, { walkable: ["props", "children", "child", "sibling"] });

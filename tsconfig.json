@@ -7,7 +7,7 @@
         "target": "ESNext",
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "jsx": "react-jsx",
+        "jsx": "react",
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,

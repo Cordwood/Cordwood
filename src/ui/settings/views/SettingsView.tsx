@@ -1,14 +1,16 @@
 import { React } from "@webpack/common";
-import { findByDisplayName } from "@webpack/filters";
+import { findByCode, findByDisplayName, findByProps } from "@webpack/filters";
 import connectStores from "@utils/connectStores";
 import SettingsStore from "@lib/flux/stores/SettingsStore";
 import SettingsActionCreators from "@lib/flux/actions/SettingsActionCreators";
 
 const Scroller = findByDisplayName("Scroller");
-const Checkbox = findByDisplayName("Checkbox");
+const { FormSection, FormTitle } = findByProps("FormSection");
+// const Checkbox = findByCode("CHECKBOX_REF");
+const SwitchItem = findByCode(/.{1,2}\.Sizes=.*?,.{1,2}\.Themes=.*?,/);
 
 // TODO: Rewrite with UIKit.
-class SettingsView extends React.Component<{ fluxLogger?: boolean }> {
+class SettingsView extends React.PureComponent<{ fluxLogger?: boolean }> {
     static displayName = "SettingsView";
     constructor(props = {}) {
         super(props);
@@ -16,28 +18,19 @@ class SettingsView extends React.Component<{ fluxLogger?: boolean }> {
 
     render() {
         return (
-            <Scroller className={"settings-wrapper settings-panel"}>
-                <div className={"control-groups"}>
-                    <div className={"control-group"}>
-                        <label>Debug Settings</label>
-                        <ul className={"checkbox-group"}>
-                            <li>
-                                <Checkbox
-                                    onChange={(v: { target: { checked: boolean } }) => {
-                                        SettingsActionCreators.setFlux(v.target.checked);
-                                    }}
-                                    defaultChecked={this.props.fluxLogger}
-                                >
-                                    Log everything that passes through the Flux Dispatcher.
-                                </Checkbox>
-                            </li>
-                            <li>
-                                <div className={"help-text"}>Note that this will clog up your console.</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </Scroller>
+            <FormSection title="Cordwood Settings" tag={FormTitle.Tags.H2}>
+                <SwitchItem
+                    note="This can clog up your console."
+                    size={SwitchItem.Sizes.DEFAULT}
+                    theme={SwitchItem.Themes.DEFAULT}
+                    onChange={(v: { target: { checked: boolean } }) => {
+                        SettingsActionCreators.setFlux(v.target.checked);
+                    }}
+                    value={this.props.fluxLogger}
+                >
+                    Log everything that passes through the Flux Dispatcher.
+                </SwitchItem>
+            </FormSection>
         );
     }
 }
