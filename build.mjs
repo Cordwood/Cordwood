@@ -21,13 +21,13 @@ try {
     await build({
         entryPoints: ["./src/index.ts"],
         outfile: "./dist/index.js",
-        minify: true,
+        minify: false,
         bundle: true,
         format: "iife",
         external: ["react"],
         target: "esnext",
         define,
-        plugins: [alias(aliases), sassPlugin({style:"compressed", transform: postcssModules({localsConvention: 'camelCaseOnly'}) })],
+        plugins: [alias(aliases), sassPlugin({ style: "compressed", transform: postcssModules({ localsConvention: 'camelCaseOnly' }) })],
         legalComments: "external",
     });
 
